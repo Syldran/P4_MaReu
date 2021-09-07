@@ -1,7 +1,6 @@
 package fr.p4.mareu.api;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.p4.mareu.model.Meeting;
 

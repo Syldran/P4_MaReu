@@ -1,5 +1,7 @@
 package fr.p4.mareu.controller;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.p4.mareu.R;
 import fr.p4.mareu.model.Employee;
@@ -17,10 +20,12 @@ import fr.p4.mareu.model.Meeting;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder> {
 
-    private final ArrayList<Meeting> mMeetings;
+    private final List<Meeting> mMeetings;
+    private Context mContext;
 
-    public MeetingAdapter(ArrayList<Meeting> meetings){
-        this.mMeetings=meetings;
+    public MeetingAdapter(List<Meeting> meetings, Context context) {
+        this.mMeetings = meetings;
+        mContext = context;
     }
 
 
@@ -36,6 +41,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     public void onBindViewHolder(@NonNull MeetingAdapter.ViewHolder holder, int position) {
         Meeting meeting=mMeetings.get(position);
         holder.displayMeeting(meeting);
+        holder.itemView.setOnClickListener(v -> mContext.startActivity(new Intent()));
     }
 
     @Override
@@ -55,8 +61,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             mailList=itemView.findViewById(R.id.item_meeting_mail_list);
         }
 
-        public void displayMeeting(Meeting meeting){
-            title.setText("Réunion - "+ meeting.getDateStart()+" - "+meeting.getSubject());
+        public void displayMeeting(Meeting meeting) {
+            Log.i("TRACE1", String.valueOf(meeting.getDuration().getStart()));
+            title.setText("Réunion - " + meeting.getDuration().getStart() + " - " + meeting.getSubject());
             mailList.setText(displayParticipants(meeting.getParticipants()));
         }
 

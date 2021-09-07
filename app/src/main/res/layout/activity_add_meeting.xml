@@ -15,6 +15,7 @@
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:hint="Meeing date"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -37,6 +38,7 @@
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:hint="Meeting start time"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldDate">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -55,6 +57,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Meeting end time"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +72,17 @@
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:text="Click to set meeting end time"
-            app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeStart"
             tools:layout_editor_absoluteX="46dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
+    <Spinner
+        android:id="@+id/spinnerRooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeEnd" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

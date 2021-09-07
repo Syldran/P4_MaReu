@@ -1,27 +1,27 @@
 package fr.p4.mareu.model;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Meeting {
-    Room mRoom;
-    ArrayList<Employee> mParticipants;
+    private Room mRoom;
+    private ArrayList<Employee> mParticipants;
+    private TimeRange mDuration;
+    private String mSubject;
 
-    public Date getDateStart() {
-        return mDateStart;
+    public Meeting(Room room, String subject, TimeRange duration) {
+        mRoom = room;
+        mParticipants = new ArrayList<Employee>(0);
+        mSubject = subject;
+        mDuration = duration;
+        mRoom.setUnavailability(duration);
     }
 
-    public void setDateStart(Date dateStart) {
-        mDateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return mDateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        mDateEnd = dateEnd;
+    public Meeting(Room room, ArrayList<Employee> participants, String subject, TimeRange duration) {
+        mRoom = room;
+        mParticipants = participants;
+        mDuration = duration;
+        mSubject = subject;
+        mRoom.setUnavailability(duration);
     }
 
     public String getSubject() {
@@ -32,25 +32,12 @@ public class Meeting {
         mSubject = subject;
     }
 
-    Date mDateStart;
-    Date mDateEnd;
-    String mSubject;
-
-
-    public Meeting(Room room, Date dateStart, Date dateEnd, String subject) {
-        mRoom = room;
-        mParticipants = new ArrayList<Employee>(0);
-        mDateEnd = dateEnd;
-        mDateStart = dateStart;
-        mSubject = subject;
+    public TimeRange getDuration() {
+        return mDuration;
     }
 
-    public Meeting(Room room, ArrayList<Employee> participants, Date dateStart, Date dateEnd, String subject) {
-        mRoom = room;
-        mParticipants = participants;
-        mDateEnd = dateEnd;
-        mDateStart = dateStart;
-        mSubject = subject;
+    public void setDuration(TimeRange duration) {
+        mDuration = duration;
     }
 
     public Room getRoom() {

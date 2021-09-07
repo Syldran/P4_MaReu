@@ -1,19 +1,29 @@
 package fr.p4.mareu.api;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import fr.p4.mareu.model.Employee;
 import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.model.Room;
+import fr.p4.mareu.model.TimeRange;
+
 
 public abstract class DummyMeetingGenerator {
 
-    public static Room[] rooms=new Room[]{new Room(25),new Room(5),new Room(3),new Room(32),new Room(45),
-            new Room(12),new Room(49),new Room(17),new Room(37),new Room(3)};
 
+    public static Calendar sCalendarTimeStart = Calendar.getInstance();
+    public static Calendar sCalendarTimeStart2 = Calendar.getInstance();
+    public static Calendar sCalendarTimeEnd = Calendar.getInstance();
+    public static Calendar sCalendarTimeEnd2 = Calendar.getInstance();
+
+
+    public static Room[] rooms = new Room[]{new Room(25), new Room(5), new Room(29), new Room(32), new Room(45),
+            new Room(12), new Room(49), new Room(17), new Room(37), new Room(3)};
 
 
     public static ArrayList<Employee> DUMMY_PARTICIPANTS1 = new ArrayList<>(Arrays.asList(
@@ -43,14 +53,21 @@ public abstract class DummyMeetingGenerator {
 
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(rooms[0], DUMMY_PARTICIPANTS1, new Date(2021,11,2,10,30), new Date(2021,11,2,12,0), "Peach"),
-            new Meeting(rooms[4], DUMMY_PARTICIPANTS2, new Date(2021,11,2,16,00), new Date(2021,11,2,12,0), "Luigi"),
-            new Meeting(rooms[8], DUMMY_PARTICIPANTS3, new Date(2021,11,5,10,30), new Date(2021,11,2,12,0), "Mario")
+            new Meeting(rooms[0], DUMMY_PARTICIPANTS1, "Peach", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd)),
+            new Meeting(rooms[0], DUMMY_PARTICIPANTS2, "Luigi", new TimeRange(sCalendarTimeStart2, sCalendarTimeEnd2)),
+            new Meeting(rooms[8], DUMMY_PARTICIPANTS3, "Mario", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd))
     );
 
 
+    static List<Meeting> generateMeetings() {
+        Log.i("TRACE1", String.valueOf("ici"));
+        sCalendarTimeStart.set(2021, 8, 6, 10, 15);
+        sCalendarTimeStart2.set(2021, 8, 6, 14, 15);
+        sCalendarTimeEnd.set(2021, 8, 6, 11, 45);
+        sCalendarTimeEnd2.set(2021, 8, 6, 16, 45);
+        Log.i("TRACE 1.5", String.valueOf("là"));
 
-    static List<Meeting> generateMeetings(){
+
         return new ArrayList<>(DUMMY_MEETINGS);
     }
 }
