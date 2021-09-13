@@ -53,9 +53,9 @@ public abstract class DummyMeetingGenerator {
 
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(rooms[0], DUMMY_PARTICIPANTS1, "Peach", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd)),
-            new Meeting(rooms[0], DUMMY_PARTICIPANTS2, "Luigi", new TimeRange(sCalendarTimeStart2, sCalendarTimeEnd2)),
-            new Meeting(rooms[8], DUMMY_PARTICIPANTS3, "Mario", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd))
+            new Meeting(001, rooms[0], DUMMY_PARTICIPANTS1, "Peach", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd)),
+            new Meeting(002, rooms[0], DUMMY_PARTICIPANTS2, "Luigi", new TimeRange(sCalendarTimeStart2, sCalendarTimeEnd2)),
+            new Meeting(003, rooms[8], DUMMY_PARTICIPANTS3, "Mario", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd))
     );
 
 

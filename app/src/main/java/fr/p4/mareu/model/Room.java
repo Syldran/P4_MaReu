@@ -20,6 +20,10 @@ public class Room {
         mUnavailability.add(duration);
     }
 
+    public void removeUnavailability(TimeRange duration) {
+        mUnavailability.remove(duration);
+    }
+
     public int getNumber() {
         return mNumber;
     }

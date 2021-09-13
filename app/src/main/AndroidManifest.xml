@@ -11,7 +11,8 @@
         android:theme="@style/Theme.MaReu">
         <activity
             android:name=".controller.AddMeetingActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".controller.MainActivity"/>
         <activity
             android:name=".controller.MainActivity"
             android:exported="true">

@@ -14,13 +14,17 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import fr.p4.mareu.api.DummyMeetingApiService;
+import fr.p4.mareu.DI.DI;
+import fr.p4.mareu.api.MeetingApiService;
 import fr.p4.mareu.databinding.ActivityAddMeetingBinding;
+import fr.p4.mareu.model.Employee;
+import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.model.Room;
 import fr.p4.mareu.model.TimeRange;
 
@@ -31,8 +35,10 @@ public class AddMeetingActivity extends AppCompatActivity {
     public Calendar mDate;
     private Calendar mStart;
     private Calendar mEnd;
-    private ArrayList<String> mRoomList;
-//    private DummyMeetingApiService mApiService;
+    private ArrayList<Integer> mRoomList;
+    private ArrayList<Employee> mEmployeeList;
+    private int mRoomChosen;
+    private MeetingApiService mApiService= DI.getMeetingApiService();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mRoomList = new ArrayList<String>(0);
+        mRoomList = new ArrayList<Integer>(0);
+        mEmployeeList = new ArrayList<Employee>(0);
         mDate = Calendar.getInstance();
         mStart = Calendar.getInstance();
         mEnd = Calendar.getInstance();
@@ -55,18 +62,27 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingEditTextDate.setOnClickListener(v -> dateDialog());
         mBinding.addMeetingEditTextTimeStart.setOnClickListener(v -> timeDialog(0));
         mBinding.addMeetingEditTextTimeEnd.setOnClickListener(v -> timeDialog(1));
+        mBinding.addMeetingEditTextEmployeesList.setOnClickListener(v -> setRoomList());
+        mBinding.buttonAddEmployees.setOnClickListener(v -> addEmployee());
+        mBinding.buttonResetEmployees.setOnClickListener(v -> resetEmployee());
+        mBinding.buttonAddMeeting.setOnClickListener(v -> createMeeting());
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void spinnerConfig() {
-        ArrayAdapter<String> dataAdapterR = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mRoomList);
+        ArrayAdapter<Integer> dataAdapterR = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, mRoomList);
         dataAdapterR.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBinding.spinnerRooms.setAdapter(dataAdapterR);
 
         mBinding.spinnerRooms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String itemSpinner = String.valueOf(mBinding.spinnerRooms.getSelectedItem());
-                Toast.makeText(AddMeetingActivity.this, "OnClickListener : " + "\nSpinner : " + itemSpinner, Toast.LENGTH_SHORT).show();
+                mRoomChosen = (int) mBinding.spinnerRooms.getSelectedItem();
+                Toast.makeText(AddMeetingActivity.this, "OnClickListener : " + "\nSpinner : " + mRoomChosen, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -134,7 +150,7 @@ public class AddMeetingActivity extends AppCompatActivity {
             onceIntersected = false;
             //If no Room unavailability then add room to free room list
             if (room.getUnavailability().size() == 0) {
-                mRoomList.add(String.valueOf(room.getNumber()));
+                mRoomList.add(room.getNumber());
             } else {
                 // We browse room unavailability list to check if it intersect with meeting time slot
                 for (TimeRange duration : room.getUnavailability()
@@ -145,9 +161,69 @@ public class AddMeetingActivity extends AppCompatActivity {
                 }
                 //If no intersection happened while checking unavailability list then we add room to free rooms list (mRoomList)
                 if (onceIntersected == false) {
-                    mRoomList.add(String.valueOf(room.getNumber()));
+                    mRoomList.add(room.getNumber());
                 }
             }
         }
+    }
+
+    private void setRoomList(){
+        if((mBinding.addMeetingEditTextEmployeesList.getText()).toString().contentEquals("Click to add employees")) {
+            mBinding.addMeetingEditTextEmployeesList.setText("");
+        }
+    }
+
+    private void addEmployee(){
+        char[] employees=mBinding.addMeetingEditTextEmployeesList.getText().toString().toCharArray();
+        Log.i("addEmployeeInput", String.valueOf(employees));
+
+        if(employees.toString().contentEquals("Click to add employees") || employees.toString().contentEquals("")) {
+            Log.i("addEmployee","HERE");
+            return;
+        } else {
+            Log.i("addEmployee","there");
+            mBinding.addMeetingEditTextEmployeesList.setText("");
+        }
+        String name="";
+        for (int i = 0 ; i < employees.length ;i++) {
+            /*if (i==employees.length-1){
+                name += employees[i];
+                Log.i("addEmployeeListNameC", name);
+            }*/
+            if (employees[i] != ' ' && employees[i]!=',' && employees[i]!='\n') {
+                name += employees[i];
+                Log.i("addEmployeeListNameC", name);
+                if(i==employees.length-1){
+                    mEmployeeList.add(new Employee(name));
+                    name="";
+                }
+            } else {
+                mEmployeeList.add(new Employee(name));
+                name="";
+            }
+        }
+        Log.i("addEmployeeListSize", String.valueOf(mEmployeeList.size()));
+        for (Employee employee : mEmployeeList
+             ) {
+            Log.i("addEmployeeList",employee.getMail().toString());
+        }
+        //Log.i("addEmployeeList", String.valueOf(mEmployeeList.get(mEmployeeList.size()-1)));
+        return;
+    }
+
+    private void resetEmployee(){
+
+        mEmployeeList.clear();
+        mBinding.addMeetingEditTextEmployeesList.setText("");
+
+    }
+
+    private void createMeeting(){
+        if(mApiService.getMeetings().size()==0){
+            mApiService.createMeeting(new Meeting(0, new Room(mRoomChosen),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
+        } else {
+            mApiService.createMeeting(new Meeting(mApiService.getMeetings().get(mApiService.getMeetings().size()-1).getId()+1, new Room(mRoomChosen),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
+        }
+        onBackPressed();
     }
 }
