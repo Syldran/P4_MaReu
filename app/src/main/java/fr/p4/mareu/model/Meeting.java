@@ -1,11 +1,12 @@
 package fr.p4.mareu.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Meeting {
     private int mId;
     private Room mRoom;
-    private ArrayList<Employee> mParticipants;
+    private List<Employee> mParticipants;
     private TimeRange mDuration;
     private String mSubject;
 
@@ -18,7 +19,7 @@ public class Meeting {
         mRoom.setUnavailability(duration);
     }
 
-    public Meeting(int id, Room room, ArrayList<Employee> participants, String subject, TimeRange duration) {
+    public Meeting(int id, Room room, List<Employee> participants, String subject, TimeRange duration) {
         mId = id;
         mRoom = room;
         mParticipants = participants;
@@ -51,11 +52,11 @@ public class Meeting {
         mRoom = room;
     }
 
-    public ArrayList<Employee> getParticipants() {
-        return (ArrayList<Employee>) mParticipants;
+    public List<Employee> getParticipants() {
+        return (List<Employee>) mParticipants;
     }
 
-    public void setParticipants(ArrayList<Employee> participants) {
+    public void setParticipants(List<Employee> participants) {
         mParticipants = participants;
     }
 

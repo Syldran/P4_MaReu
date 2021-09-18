@@ -11,6 +11,11 @@ public class Room {
         mUnavailability = new ArrayList<TimeRange>(0);
     }
 
+    public Room(int number, TimeRange unavailability){
+        mNumber = number;
+        mUnavailability.add(unavailability);
+    }
+
 
     public ArrayList<TimeRange> getUnavailability() {
         return mUnavailability;

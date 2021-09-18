@@ -14,8 +14,8 @@ public interface MeetingApiService {
 
     void createMeeting(Meeting meeting);
 
-    ArrayList<Meeting> getMeetingsFilteredByDate(Calendar calendar);
+    List<Meeting> getMeetingsFilteredByDate(Calendar calendar);
 
-    ArrayList<Meeting> getMeetingsFilteredByRoom(Room room);
+    List<Meeting> getMeetingsFilteredByRoom(Room room);
 
 }

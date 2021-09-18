@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        app:expandedHintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:hint="Meeting date"
@@ -26,7 +27,7 @@
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:text="Click to set date" />
+            android:hint="Click to set date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        app:expandedHintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:hint="Meeting start time"
@@ -49,7 +51,7 @@
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:text="Click to set meeting start time" />
+            android:hint="Click to set meeting start time" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,6 +61,7 @@
         android:layout_height="wrap_content"
         android:hint="Meeting end time"
         android:layout_margin="16dp"
+        app:expandedHintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeStart">
@@ -71,7 +74,7 @@
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="center"
-            android:text="Click to set meeting end time"
+            android:hint="Click to set meeting end time"
             tools:layout_editor_absoluteX="46dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,25 +88,46 @@
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeEnd" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextFieldSubject"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Meeting end time"
+        android:layout_margin="16dp"
+        app:expandedHintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRooms">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_meeting_edit_text_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Click to set meeting subject"
+            tools:layout_editor_absoluteX="46dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldEmployeesList"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:hint="Employees List"
-
+        app:expandedHintEnabled="false"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddMeeting"
         app:layout_constraintEnd_toStartOf="@+id/buttonResetEmployees"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerRooms">
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldSubject">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_meeting_edit_text_employees_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusableInTouchMode="true"
             android:gravity="center"
-            android:text="Click to add employees"
+            android:ellipsize="end"
+            android:hint="Click to add employees"
             tools:layout_editor_absoluteX="46dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

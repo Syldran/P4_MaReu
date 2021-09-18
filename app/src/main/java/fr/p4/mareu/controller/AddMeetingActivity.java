@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import fr.p4.mareu.DI.DI;
@@ -62,7 +63,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         mBinding.addMeetingEditTextDate.setOnClickListener(v -> dateDialog());
         mBinding.addMeetingEditTextTimeStart.setOnClickListener(v -> timeDialog(0));
         mBinding.addMeetingEditTextTimeEnd.setOnClickListener(v -> timeDialog(1));
-        mBinding.addMeetingEditTextEmployeesList.setOnClickListener(v -> setRoomList());
         mBinding.buttonAddEmployees.setOnClickListener(v -> addEmployee());
         mBinding.buttonResetEmployees.setOnClickListener(v -> resetEmployee());
         mBinding.buttonAddMeeting.setOnClickListener(v -> createMeeting());
@@ -167,29 +167,16 @@ public class AddMeetingActivity extends AppCompatActivity {
         }
     }
 
-    private void setRoomList(){
-        if((mBinding.addMeetingEditTextEmployeesList.getText()).toString().contentEquals("Click to add employees")) {
-            mBinding.addMeetingEditTextEmployeesList.setText("");
-        }
-    }
-
     private void addEmployee(){
         char[] employees=mBinding.addMeetingEditTextEmployeesList.getText().toString().toCharArray();
         Log.i("addEmployeeInput", String.valueOf(employees));
 
-        if(employees.toString().contentEquals("Click to add employees") || employees.toString().contentEquals("")) {
+        if(employees.length==0) {
             Log.i("addEmployee","HERE");
             return;
-        } else {
-            Log.i("addEmployee","there");
-            mBinding.addMeetingEditTextEmployeesList.setText("");
         }
         String name="";
         for (int i = 0 ; i < employees.length ;i++) {
-            /*if (i==employees.length-1){
-                name += employees[i];
-                Log.i("addEmployeeListNameC", name);
-            }*/
             if (employees[i] != ' ' && employees[i]!=',' && employees[i]!='\n') {
                 name += employees[i];
                 Log.i("addEmployeeListNameC", name);
@@ -205,9 +192,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         Log.i("addEmployeeListSize", String.valueOf(mEmployeeList.size()));
         for (Employee employee : mEmployeeList
              ) {
-            Log.i("addEmployeeList",employee.getMail().toString());
+            Log.i("addEmployeeList",employee.getMail());
         }
-        //Log.i("addEmployeeList", String.valueOf(mEmployeeList.get(mEmployeeList.size()-1)));
         return;
     }
 
@@ -222,8 +208,18 @@ public class AddMeetingActivity extends AppCompatActivity {
         if(mApiService.getMeetings().size()==0){
             mApiService.createMeeting(new Meeting(0, new Room(mRoomChosen),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
         } else {
-            mApiService.createMeeting(new Meeting(mApiService.getMeetings().get(mApiService.getMeetings().size()-1).getId()+1, new Room(mRoomChosen),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
+            mApiService.createMeeting(new Meeting(mApiService.getMeetings().get(mApiService.getMeetings().size()-1).getId()+1, findRoom(),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
         }
         onBackPressed();
+    }
+
+    private Room findRoom(){
+        int b=-1;
+        for (int i = 0; i<rooms.length; i++){
+            if(mRoomChosen == rooms[i].getNumber()){
+                b=i;
+            }
+        }
+        return rooms[b];
     }
 }

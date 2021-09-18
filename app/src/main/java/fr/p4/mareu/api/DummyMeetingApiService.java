@@ -3,16 +3,17 @@ package fr.p4.mareu.api;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.model.Room;
 
 public class DummyMeetingApiService implements MeetingApiService{
 
-    private ArrayList<Meeting> mMeetings = (ArrayList<Meeting>) DummyMeetingGenerator.generateMeetings();
+    private List<Meeting> mMeetings = DummyMeetingGenerator.generateMeetings();
 
     @Override
-    public ArrayList<Meeting> getMeetings() {
+    public List<Meeting> getMeetings() {
         return mMeetings;
     }
 
@@ -28,8 +29,8 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public ArrayList<Meeting> getMeetingsFilteredByDate(Calendar calendar) {
-        ArrayList<Meeting> result = new ArrayList<>();
+    public List<Meeting> getMeetingsFilteredByDate(Calendar calendar) {
+        List<Meeting> result = new ArrayList<>();
 
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(calendar.getTime());
@@ -45,8 +46,8 @@ public class DummyMeetingApiService implements MeetingApiService{
     }
 
     @Override
-    public ArrayList<Meeting> getMeetingsFilteredByRoom(Room room) {
-        ArrayList<Meeting> result = new ArrayList<>();
+    public List<Meeting> getMeetingsFilteredByRoom(Room room) {
+        List<Meeting> result = new ArrayList<>();
 
         for (int i = 0 ; i < mMeetings.size(); i++){
             boolean sameRoom = room == mMeetings.get(i).getRoom();

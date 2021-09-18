@@ -26,30 +26,30 @@ public abstract class DummyMeetingGenerator {
             new Room(12), new Room(49), new Room(17), new Room(37), new Room(3)};
 
 
-    public static ArrayList<Employee> DUMMY_PARTICIPANTS1 = new ArrayList<>(Arrays.asList(
+    public static List<Employee> DUMMY_PARTICIPANTS1 = Arrays.asList(
             new Employee("maxime@lamzone.com"),
             new Employee("jeanine@lamzone.com"),
             new Employee("paul@lamzone.com"),
             new Employee("elodie@lamzone.com"),
             new Employee("françois@lamzone.com"),
             new Employee("aurélie@lamzone.com")
-    ));
-    public static ArrayList<Employee> DUMMY_PARTICIPANTS2 = new ArrayList<>(Arrays.asList(
+    );
+    public static List<Employee> DUMMY_PARTICIPANTS2 = Arrays.asList(
             new Employee("jean@lamzone.com"),
             new Employee("sophie@lamzone.com"),
             new Employee("guillaume@lamzone.com"),
             new Employee("anette@lamzone.com"),
             new Employee("fabien@lamzone.com"),
             new Employee("cécile@lamzone.com")
-    ));
-    public static ArrayList<Employee> DUMMY_PARTICIPANTS3 = new ArrayList<>(Arrays.asList(
+    );
+    public static List<Employee> DUMMY_PARTICIPANTS3 = Arrays.asList(
             new Employee("pascal@lamzone.com"),
             new Employee("aline@lamzone.com"),
             new Employee("alain@lamzone.com"),
             new Employee("laura@lamzone.com"),
             new Employee("patrique@lamzone.com"),
             new Employee("emilie@lamzone.com")
-    ));
+    );
 
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(

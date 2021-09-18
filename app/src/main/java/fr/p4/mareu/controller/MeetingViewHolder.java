@@ -8,12 +8,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import fr.p4.mareu.DI.DI;
 import fr.p4.mareu.R;
 import fr.p4.mareu.api.MeetingApiService;
 import fr.p4.mareu.model.Employee;
 import fr.p4.mareu.model.Meeting;
+import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 public class MeetingViewHolder extends RecyclerView.ViewHolder {
     private MeetingApiService mApiService = DI.getMeetingApiService();
@@ -28,13 +31,13 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
         deleteButton = itemView.findViewById(R.id.itemDeleteButton);
     }
 
-    public void displayMeeting(Meeting meeting) {
-        title.setText("Réunion - " + meeting.getDuration().getStart() + " - " + meeting.getSubject());
+    public void displayMeeting(Meeting meeting, RecyclerViewHolderListener listener) {
+        title.setText(meeting.getSubject()+" - " + meeting.getDuration().getStart().get(Calendar.HOUR_OF_DAY) + "h " + meeting.getDuration().getStart().get(Calendar.MINUTE)+ " - Salle : "+meeting.getRoom().getNumber());
         mailList.setText(displayParticipants(meeting.getParticipants()));
-        deleteButton.setOnClickListener(view -> mApiService.deleteMeeting(meeting));
+        deleteButton.setOnClickListener(view -> listener.onItemClicked(this, meeting, getAdapterPosition()));
     }
 
-    private CharSequence displayParticipants(ArrayList<Employee> participants) {
+    private CharSequence displayParticipants(List<Employee> participants) {
         CharSequence meetingMails = "";
         for (Employee employee : participants
         ) {

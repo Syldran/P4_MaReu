@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -32,19 +33,19 @@ import fr.p4.mareu.databinding.ActivityMainBinding;
 import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.controller.*;
 import fr.p4.mareu.model.Room;
+import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding mBinding;
     private MeetingApiService mApiService = DI.getMeetingApiService();
-    private List<Meeting> mMeetings;
+    private List<Meeting> mMeetings= new ArrayList<>();
     private MeetingAdapter meetingAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMeetings= new ArrayList<>(mApiService.getMeetings());
         initUi();
 
     }
@@ -53,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         resetFilter();
+
+    }
+
+    private void initData(){
+        mMeetings = mApiService.getMeetings();
     }
 
     private void initUi() {
@@ -67,9 +73,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mBinding.mainMeetingRecyclerview.setLayoutManager(layoutManager);
 
-        meetingAdapter = new MeetingAdapter(mMeetings, this);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mBinding.mainMeetingRecyclerview.getContext(),
-                layoutManager.getOrientation());
+        RecyclerViewHolderListener listener = (viewHolder, item, pos) -> {
+            Meeting meeting = (Meeting) item;
+            mApiService.deleteMeeting(meeting);
+            resetFilter();
+        };
+        meetingAdapter = new MeetingAdapter(mMeetings, this, listener);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mBinding.mainMeetingRecyclerview.getContext(), layoutManager.getOrientation());
         mBinding.mainMeetingRecyclerview.addItemDecoration(dividerItemDecoration);
         mBinding.mainMeetingRecyclerview.setAdapter(meetingAdapter);
     }
@@ -109,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cal.set(i, i1, i2);
                 mMeetings.clear();
                 mMeetings.addAll(mApiService.getMeetingsFilteredByDate(cal));
-                mBinding.mainMeetingRecyclerview.getAdapter().notifyDataSetChanged();
+                meetingAdapter.notifyDataSetChanged();
             }
 
         };
@@ -126,14 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] rooms1= new String[]{String.valueOf(rooms[0].getNumber()),String.valueOf(rooms[1].getNumber()),String.valueOf(rooms[2].getNumber()),String.valueOf(rooms[3].getNumber()),String.valueOf(rooms[4].getNumber()),String.valueOf(rooms[5].getNumber()),String.valueOf(rooms[6].getNumber()),String.valueOf(rooms[7].getNumber()),String.valueOf(rooms[8].getNumber()),String.valueOf(rooms[9].getNumber())};
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
         dialog.setTitle("Rooms");
+        int test;
         dialog.setItems(rooms1, (DialogInterface.OnClickListener) (dialogInterface, i) -> {
-            switch (i){
-                case 0 :
-                    mMeetings.clear();
-                    mMeetings.addAll(mApiService.getMeetingsFilteredByRoom(rooms[0]));
-                    mBinding.mainMeetingRecyclerview.getAdapter().notifyDataSetChanged();
-                    return;
-            }
+            mMeetings.clear();
+            mMeetings.addAll(mApiService.getMeetingsFilteredByRoom(rooms[i]));
+            meetingAdapter.notifyDataSetChanged();
         });
         dialog.show();
     }
@@ -141,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void resetFilter() {
         mMeetings.clear();
         mMeetings.addAll(mApiService.getMeetings());
-        mBinding.mainMeetingRecyclerview.getAdapter().notifyDataSetChanged();
+        meetingAdapter.notifyDataSetChanged();
     }
 
     private void setButton() {
