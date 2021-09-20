@@ -32,7 +32,7 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void displayMeeting(Meeting meeting, RecyclerViewHolderListener listener) {
-        title.setText(meeting.getSubject()+" - " + meeting.getDuration().getStart().get(Calendar.HOUR_OF_DAY) + "h " + meeting.getDuration().getStart().get(Calendar.MINUTE)+ " - Salle : "+meeting.getRoom().getNumber());
+        title.setText(meeting.getSubject()+" - " + meeting.getDuration().getStart().get(Calendar.HOUR_OF_DAY) + "h" + meeting.getDuration().getStart().get(Calendar.MINUTE)+ " - Salle : "+meeting.getRoom().getNumber());
         mailList.setText(displayParticipants(meeting.getParticipants()));
         deleteButton.setOnClickListener(view -> listener.onItemClicked(this, meeting, getAdapterPosition()));
     }

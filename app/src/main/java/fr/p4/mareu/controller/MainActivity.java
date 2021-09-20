@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void initData(){
-        mMeetings = mApiService.getMeetings();
-    }
-
     private void initUi() {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
@@ -76,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerViewHolderListener listener = (viewHolder, item, pos) -> {
             Meeting meeting = (Meeting) item;
             mApiService.deleteMeeting(meeting);
-            resetFilter();
+            mMeetings.remove(pos);
+            meetingAdapter.notifyDataSetChanged();
         };
         meetingAdapter = new MeetingAdapter(mMeetings, this, listener);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mBinding.mainMeetingRecyclerview.getContext(), layoutManager.getOrientation());
@@ -136,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] rooms1= new String[]{String.valueOf(rooms[0].getNumber()),String.valueOf(rooms[1].getNumber()),String.valueOf(rooms[2].getNumber()),String.valueOf(rooms[3].getNumber()),String.valueOf(rooms[4].getNumber()),String.valueOf(rooms[5].getNumber()),String.valueOf(rooms[6].getNumber()),String.valueOf(rooms[7].getNumber()),String.valueOf(rooms[8].getNumber()),String.valueOf(rooms[9].getNumber())};
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
         dialog.setTitle("Rooms");
-        int test;
         dialog.setItems(rooms1, (DialogInterface.OnClickListener) (dialogInterface, i) -> {
             mMeetings.clear();
             mMeetings.addAll(mApiService.getMeetingsFilteredByRoom(rooms[i]));
@@ -161,6 +157,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          startActivity(new Intent(this, AddMeetingActivity.class));
         }
     }
-
-
 }

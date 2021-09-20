@@ -1,6 +1,5 @@
 package fr.p4.mareu.controller;
 
-
 import static fr.p4.mareu.api.DummyMeetingGenerator.rooms;
 
 import android.app.DatePickerDialog;
@@ -14,11 +13,9 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import fr.p4.mareu.DI.DI;
@@ -29,8 +26,7 @@ import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.model.Room;
 import fr.p4.mareu.model.TimeRange;
 
-
-public class AddMeetingActivity extends AppCompatActivity {
+public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityAddMeetingBinding mBinding;
     public Calendar mDate;
@@ -39,7 +35,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     private ArrayList<Integer> mRoomList;
     private ArrayList<Employee> mEmployeeList;
     private int mRoomChosen;
-    private MeetingApiService mApiService= DI.getMeetingApiService();;
+    private final MeetingApiService mApiService = DI.getMeetingApiService();
+    private Calendar currentCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +46,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mRoomList = new ArrayList<Integer>(0);
-        mEmployeeList = new ArrayList<Employee>(0);
+        mRoomList = new ArrayList<Integer>();
+        mEmployeeList = new ArrayList<Employee>();
         mDate = Calendar.getInstance();
         mStart = Calendar.getInstance();
         mEnd = Calendar.getInstance();
@@ -61,12 +58,22 @@ public class AddMeetingActivity extends AppCompatActivity {
         View view = mBinding.getRoot();
         setContentView(view);
         mBinding.addMeetingEditTextDate.setOnClickListener(v -> dateDialog());
-        mBinding.addMeetingEditTextTimeStart.setOnClickListener(v -> timeDialog(0));
-        mBinding.addMeetingEditTextTimeEnd.setOnClickListener(v -> timeDialog(1));
+        mBinding.addMeetingEditTextTimeStart.setOnClickListener(this);
+        mBinding.addMeetingEditTextTimeEnd.setOnClickListener(this);
         mBinding.buttonAddEmployees.setOnClickListener(v -> addEmployee());
         mBinding.buttonResetEmployees.setOnClickListener(v -> resetEmployee());
         mBinding.buttonAddMeeting.setOnClickListener(v -> createMeeting());
+    }
 
+    @Override
+    public void onClick(View view) {
+        if (view == mBinding.addMeetingEditTextTimeStart && currentCalendar.before(mDate) && !mBinding.addMeetingEditTextDate.getText().toString().isEmpty()) {
+            timeDialog(0);
+        }
+        if (view == mBinding.addMeetingEditTextTimeEnd) {
+            if (!mBinding.addMeetingEditTextTimeStart.getText().toString().isEmpty())
+                timeDialog(1);
+        }
     }
 
     @Override
@@ -78,7 +85,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         ArrayAdapter<Integer> dataAdapterR = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, mRoomList);
         dataAdapterR.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mBinding.spinnerRooms.setAdapter(dataAdapterR);
-
         mBinding.spinnerRooms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mRoomChosen = (int) mBinding.spinnerRooms.getSelectedItem();
@@ -89,19 +95,37 @@ public class AddMeetingActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
             }
-
         });
     }
 
     private void dateDialog() {
-
-
         // Date Select Listener.
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                currentCalendar = Calendar.getInstance();
+                currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                currentCalendar.set(Calendar.MINUTE, 0);
+                currentCalendar.set(Calendar.SECOND, 0);
+
                 mDate.set(i, i1, i2);
-                mBinding.addMeetingEditTextDate.setText(i2 + "/" + (i1 + 1) + "/" + i);
+                if (mDate.before(currentCalendar)) { // Error if past date chosen
+                    mBinding.outlinedTextFieldDate.setErrorEnabled(true);
+                    mBinding.outlinedTextFieldDate.setError("Invalid Date");
+                    mBinding.addMeetingEditTextDate.setText(null);
+                } else {
+                    mBinding.outlinedTextFieldDate.setErrorEnabled(false); // Valid date chosen
+                    mBinding.addMeetingEditTextDate.setText(i2 + "/" + (i1 + 1) + "/" + i);
+                    mStart.set(Calendar.YEAR, mDate.get(Calendar.YEAR)); //update Calendar mStart & mEnd if new date chosen
+                    mStart.set(Calendar.MONTH, mDate.get(Calendar.MONTH));
+                    mStart.set(Calendar.DAY_OF_MONTH, mDate.get(Calendar.DAY_OF_MONTH));
+                    mEnd.set(Calendar.YEAR, mDate.get(Calendar.YEAR));
+                    mEnd.set(Calendar.MONTH, mDate.get(Calendar.MONTH));
+                    mEnd.set(Calendar.DAY_OF_MONTH, mDate.get(Calendar.DAY_OF_MONTH));
+                    if(!mBinding.addMeetingEditTextTimeEnd.getText().toString().isEmpty()){ //update spinner if hours are already specified
+                        spinnerUpdate();
+                    }
+                }
             }
         };
 
@@ -118,21 +142,30 @@ public class AddMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                if (nbr == 0) {
+                if (nbr == 0) {// Start time picker chosen
                     mStart.set(mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH), i, i1);
-                    Log.i("timeDialog - mStart", "A : " + mStart.get(Calendar.YEAR) + "   M : " + mStart.get(Calendar.MONTH) + "   D : " + mStart.get(Calendar.DAY_OF_MONTH) + "   h : " + mStart.get(Calendar.HOUR_OF_DAY) + "   m : " + mStart.get(Calendar.MINUTE));
                     mBinding.addMeetingEditTextTimeStart.setText(i + " : " + i1);
-                    //TODO controle de l'heure fin supérieur à heure début
-                } else {
-                    mRoomList.clear();
+                    mBinding.outlinedTextFieldTimeStart.setErrorEnabled(false);
+                    if (!mBinding.addMeetingEditTextTimeEnd.getText().toString().isEmpty()) { //End time already specified
+                        if (mEnd.before(mStart)) { // if End time before Start time -> error
+                            mBinding.addMeetingEditTextTimeEnd.setText(null);
+                            mBinding.outlinedTextFieldTimeEnd.setError("Invalid End Time");
+                            return;
+                        }
+                        spinnerUpdate();
+                    }
+                } else { //End time picker chosen
                     mEnd.set(mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH), i, i1);
-                    Log.i("timeDialog - mEnd", "A : " + mEnd.get(Calendar.YEAR) + "   M : " + mEnd.get(Calendar.MONTH) + "   D : " + mEnd.get(Calendar.DAY_OF_MONTH) + "   h : " + mEnd.get(Calendar.HOUR_OF_DAY) + "   m : " + mEnd.get(Calendar.MINUTE));
-                    mBinding.addMeetingEditTextTimeEnd.setText(i + " : " + i1);
-                    roomChoice();
-                    spinnerConfig();
+                    if (mEnd.before(mStart)) {
+                        mBinding.addMeetingEditTextTimeEnd.setText(null);
+                        mBinding.outlinedTextFieldTimeEnd.setError("Invalid End Time");
+                    } else {
+                        mBinding.addMeetingEditTextTimeEnd.setText(i + " : " + i1);
+                        mBinding.outlinedTextFieldTimeEnd.setErrorEnabled(false);
+                        spinnerUpdate();
+                    }
                 }
             }
-
         };
         // Create TimePickerDialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, timeSetListener, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), true);
@@ -140,7 +173,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         // Show
         timePickerDialog.show();
     }
-
 
     private void roomChoice() {
         TimeRange meetingDuration = new TimeRange(mStart, mEnd);
@@ -155,12 +187,12 @@ public class AddMeetingActivity extends AppCompatActivity {
                 // We browse room unavailability list to check if it intersect with meeting time slot
                 for (TimeRange duration : room.getUnavailability()
                 ) {
-                    if (duration.intersect(meetingDuration) == true) {
+                    if (duration.intersect(meetingDuration)) {
                         onceIntersected = true;
                     }
                 }
                 //If no intersection happened while checking unavailability list then we add room to free rooms list (mRoomList)
-                if (onceIntersected == false) {
+                if (!onceIntersected) {
                     mRoomList.add(room.getNumber());
                 }
             }
@@ -168,11 +200,11 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void addEmployee(){
+        mBinding.addMeetingTextViewEmployeesList.setText(null);
         char[] employees=mBinding.addMeetingEditTextEmployeesList.getText().toString().toCharArray();
-        Log.i("addEmployeeInput", String.valueOf(employees));
 
         if(employees.length==0) {
-            Log.i("addEmployee","HERE");
+            mBinding.outlinedTextFieldEmployeesList.setError("Please type participants");
             return;
         }
         String name="";
@@ -189,35 +221,59 @@ public class AddMeetingActivity extends AppCompatActivity {
                 name="";
             }
         }
-        Log.i("addEmployeeListSize", String.valueOf(mEmployeeList.size()));
-        for (Employee employee : mEmployeeList
+        mBinding.addMeetingEditTextEmployeesList.setText(null);
+        for (Employee e:mEmployeeList
              ) {
-            Log.i("addEmployeeList",employee.getMail());
+            mBinding.addMeetingTextViewEmployeesList.append(e.getMail()+" ");
         }
-        return;
+        mBinding.outlinedTextFieldEmployeesList.setErrorEnabled(false);
     }
 
     private void resetEmployee(){
-
         mEmployeeList.clear();
-        mBinding.addMeetingEditTextEmployeesList.setText("");
+        mBinding.addMeetingTextViewEmployeesList.setText("");
+    }
 
+    private void spinnerUpdate(){
+        mRoomList.clear();
+        roomChoice();
+        spinnerConfig();
     }
 
     private void createMeeting(){
+        if (mBinding.addMeetingEditTextDate.getText().toString().isEmpty()){
+            mBinding.outlinedTextFieldDate.setError("Please select a Date");
+            return;
+        }
+        if(mBinding.addMeetingEditTextTimeStart.getText().toString().isEmpty()){
+            mBinding.outlinedTextFieldTimeStart.setError("Please select starting time");
+            return;
+        }
+        if(mBinding.addMeetingEditTextTimeEnd.getText().toString().isEmpty()){
+            mBinding.outlinedTextFieldTimeEnd.setError("Please select ending time");
+            return;
+        }
+        if (mBinding.addMeetingEditTextSubject.getText().toString().isEmpty()){
+            mBinding.outlinedTextFieldSubject.setError("Please type your meeting subject");
+            return;
+        }
+        if (mEmployeeList.isEmpty()){
+            mBinding.outlinedTextFieldEmployeesList.setError("Please enter meeting participants");
+            return;
+        }
         if(mApiService.getMeetings().size()==0){
-            mApiService.createMeeting(new Meeting(0, new Room(mRoomChosen),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
+            mApiService.createMeeting(new Meeting(0, new Room(mRoomChosen),mEmployeeList,mBinding.addMeetingEditTextSubject.getText().toString(),new TimeRange(mStart,mEnd)));
         } else {
-            mApiService.createMeeting(new Meeting(mApiService.getMeetings().get(mApiService.getMeetings().size()-1).getId()+1, findRoom(),mEmployeeList,"Subject",new TimeRange(mStart,mEnd)));
+            mApiService.createMeeting(new Meeting(mApiService.getMeetings().get(mApiService.getMeetings().size()-1).getId()+1, findRoom(),mEmployeeList,mBinding.addMeetingEditTextSubject.getText().toString(),new TimeRange(mStart,mEnd)));
         }
         onBackPressed();
     }
 
-    private Room findRoom(){
-        int b=-1;
-        for (int i = 0; i<rooms.length; i++){
-            if(mRoomChosen == rooms[i].getNumber()){
-                b=i;
+    private Room findRoom() {
+        int b = -1;
+        for (int i = 0; i < rooms.length; i++) {
+            if (mRoomChosen == rooms[i].getNumber()) {
+                b = i;
             }
         }
         return rooms[b];
