@@ -3,16 +3,16 @@ package fr.p4.mareu.model;
 import java.util.ArrayList;
 
 public class Room {
-    private int mNumber;
+    private String mId;
     private ArrayList<TimeRange> mUnavailability;
 
-    public Room(int number) {
-        mNumber = number;
+    public Room(String id) {
+        mId = id;
         mUnavailability = new ArrayList<TimeRange>(0);
     }
 
-    public Room(int number, TimeRange unavailability){
-        mNumber = number;
+    public Room(String id, TimeRange unavailability){
+        mId = id;
         mUnavailability.add(unavailability);
     }
 
@@ -29,12 +29,12 @@ public class Room {
         mUnavailability.remove(duration);
     }
 
-    public int getNumber() {
-        return mNumber;
+    public String getId() {
+        return mId;
     }
 
-    public void setNumber(int number) {
-        mNumber = number;
+    public void setId(String id) {
+        mId = id;
     }
 }
 

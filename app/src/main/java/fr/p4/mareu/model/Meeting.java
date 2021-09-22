@@ -1,27 +1,17 @@
 package fr.p4.mareu.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Meeting {
-    private int mId;
     private Room mRoom;
+    private int mColor;
     private List<Employee> mParticipants;
     private TimeRange mDuration;
     private String mSubject;
 
-    public Meeting(int id, Room room, String subject, TimeRange duration) {
-        mId = id;
+    public Meeting(Room room, int color, List<Employee> participants, String subject, TimeRange duration) {
         mRoom = room;
-        mParticipants = new ArrayList<Employee>(0);
-        mSubject = subject;
-        mDuration = duration;
-        mRoom.setUnavailability(duration);
-    }
-
-    public Meeting(int id, Room room, List<Employee> participants, String subject, TimeRange duration) {
-        mId = id;
-        mRoom = room;
+        mColor = color;
         mParticipants = participants;
         mDuration = duration;
         mSubject = subject;
@@ -34,6 +24,14 @@ public class Meeting {
 
     public void setSubject(String subject) {
         mSubject = subject;
+    }
+
+    public int getColor() {
+        return mColor;
+    }
+
+    public void setColor(int color) {
+        mColor = color;
     }
 
     public TimeRange getDuration() {
@@ -58,13 +56,5 @@ public class Meeting {
 
     public void setParticipants(List<Employee> participants) {
         mParticipants = participants;
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        mId = id;
     }
 }

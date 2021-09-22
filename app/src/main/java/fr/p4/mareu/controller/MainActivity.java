@@ -3,11 +3,9 @@ package fr.p4.mareu.controller;
 import static fr.p4.mareu.api.DummyMeetingGenerator.rooms;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,12 +15,10 @@ import android.widget.DatePicker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,8 +27,6 @@ import fr.p4.mareu.R;
 import fr.p4.mareu.api.MeetingApiService;
 import fr.p4.mareu.databinding.ActivityMainBinding;
 import fr.p4.mareu.model.Meeting;
-import fr.p4.mareu.controller.*;
-import fr.p4.mareu.model.Room;
 import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 
@@ -130,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void roomDialog(){
-        String[] rooms1= new String[]{String.valueOf(rooms[0].getNumber()),String.valueOf(rooms[1].getNumber()),String.valueOf(rooms[2].getNumber()),String.valueOf(rooms[3].getNumber()),String.valueOf(rooms[4].getNumber()),String.valueOf(rooms[5].getNumber()),String.valueOf(rooms[6].getNumber()),String.valueOf(rooms[7].getNumber()),String.valueOf(rooms[8].getNumber()),String.valueOf(rooms[9].getNumber())};
+        String[] rooms1= new String[]{String.valueOf(rooms[0].getId()),String.valueOf(rooms[1].getId()),String.valueOf(rooms[2].getId()),String.valueOf(rooms[3].getId()),String.valueOf(rooms[4].getId()),String.valueOf(rooms[5].getId()),String.valueOf(rooms[6].getId()),String.valueOf(rooms[7].getId()),String.valueOf(rooms[8].getId()),String.valueOf(rooms[9].getId())};
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
         dialog.setTitle("Rooms");
         dialog.setItems(rooms1, (DialogInterface.OnClickListener) (dialogInterface, i) -> {

@@ -7,16 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".controller.AddMeetingActivity">
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldDate"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:expandedHintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:hint="Meeting date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/outlinedTextFieldTimeStart"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -24,6 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="false"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="center"
@@ -36,18 +39,21 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginVertical="16dp"
         android:hint="Meeting start time"
         app:expandedHintEnabled="false"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/outlinedTextFieldDate"
         app:layout_constraintEnd_toStartOf="@+id/outlinedTextFieldTimeEnd"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldDate">
+        app:layout_constraintStart_toEndOf="@+id/outlinedTextFieldDate"
+        app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldDate">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_meeting_edit_text_time_start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="false"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:gravity="center"
@@ -62,9 +68,10 @@
         android:layout_margin="16dp"
         android:hint="Meeting end time"
         app:expandedHintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="@+id/outlinedTextFieldTimeStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/outlinedTextFieldTimeStart"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldDate">
+        app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldTimeStart">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_meeting_edit_text_time_end"
@@ -73,6 +80,8 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:gravity="center"
             android:hint="Click to set end time"
             tools:layout_editor_absoluteX="46dp" />
@@ -87,25 +96,25 @@
         android:gravity="center"
         android:text="Room"
         app:layout_constraintBottom_toBottomOf="@+id/add_meeting_color_picker_btn"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerRooms"
         app:layout_constraintTop_toTopOf="@+id/add_meeting_color_picker_btn" />
 
     <Spinner
         android:id="@+id/spinnerRooms"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/border"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/add_meeting_text_view_rooms"
-        app:layout_constraintStart_toEndOf="@+id/add_meeting_text_view_rooms"
-        app:layout_constraintTop_toTopOf="@+id/add_meeting_text_view_rooms" />
+        app:layout_constraintBottom_toBottomOf="@+id/add_meeting_color_picker_btn"
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_text_view_color"
+        app:layout_constraintTop_toTopOf="@+id/add_meeting_color_picker_btn" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/add_meeting_text_view_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginVertical="16dp"
         android:ellipsize="end"
         android:gravity="center"
         android:text="Color"
@@ -113,16 +122,26 @@
         app:layout_constraintEnd_toStartOf="@+id/add_meeting_color_picker_btn"
         app:layout_constraintTop_toTopOf="@+id/add_meeting_color_picker_btn" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_meeting_color_picker_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        app:backgroundTint="@color/teal_200"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeEnd" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldSubject"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
         android:hint="Meeting subject"
         app:expandedHintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_color_picker_btn">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -131,7 +150,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="Click to set meeting subject"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="text"
             tools:layout_editor_absoluteX="46dp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -144,9 +163,9 @@
         android:layout_margin="16dp"
         android:hint="Employees List"
         app:expandedHintEnabled="false"
-        app:layout_constraintEnd_toStartOf="@+id/buttonResetEmployees"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddEmployees"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldSubject">
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldDate">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_meeting_edit_text_employees_list"
@@ -154,28 +173,31 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
+            android:hint="Click to add employees"
             android:singleLine="true"
-            android:hint="Click to add employees" />
+            android:imeOptions="actionDone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/add_meeting_text_view_employees_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:ellipsize="end"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddMeeting"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldEmployeesList"
         app:layout_constraintStart_toStartOf="@+id/outlinedTextFieldEmployeesList"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldEmployeesList" />
+
     <Button
         android:id="@+id/buttonAddEmployees"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Add"
-        android:layout_margin="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldEmployeesList" />
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_text_view_rooms"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_text_view_rooms" />
 
     <Button
         android:id="@+id/buttonResetEmployees"
@@ -183,7 +205,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Reset"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonAddEmployees"
+        app:layout_constraintStart_toStartOf="@+id/buttonAddEmployees"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddEmployees" />
 
     <Button
@@ -193,18 +216,6 @@
         android:layout_margin="16dp"
         android:text="Confirm Meeting"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_meeting_color_picker_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        app:backgroundTint="@color/teal_200"
-        app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldTimeStart" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
