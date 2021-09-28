@@ -19,6 +19,13 @@ public abstract class DummyMeetingGenerator {
     public static Calendar sCalendarTimeEnd = Calendar.getInstance();
     public static Calendar sCalendarTimeEnd2 = Calendar.getInstance();
 
+    static {
+        sCalendarTimeStart.set(2021, 8, 6, 10, 15);
+        sCalendarTimeStart2.set(2021, 8, 6, 14, 15);
+        sCalendarTimeEnd.set(2021, 8, 6, 11, 45);
+        sCalendarTimeEnd2.set(2021, 8, 6, 16, 45);
+    }
+
 
     public static Room[] rooms = new Room[]{new Room("Peach"), new Room("Mario"), new Room("Luigi"), new Room("Bowser"), new Room("Daisy"),
             new Room("Rosalina"), new Room("Wario"), new Room("Booster"), new Room("Kong"), new Room("Waluigi")};
@@ -58,11 +65,6 @@ public abstract class DummyMeetingGenerator {
 
 
     static List<Meeting> generateMeetings() {
-        sCalendarTimeStart.set(2021, 8, 6, 10, 15);
-        sCalendarTimeStart2.set(2021, 8, 6, 14, 15);
-        sCalendarTimeEnd.set(2021, 8, 6, 11, 45);
-        sCalendarTimeEnd2.set(2021, 8, 6, 16, 45);
-
         return new ArrayList<>(DUMMY_MEETINGS);
     }
 }

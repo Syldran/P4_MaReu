@@ -5,14 +5,17 @@ import static fr.p4.mareu.api.DummyMeetingGenerator.rooms;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -24,7 +27,10 @@ import com.skydoves.colorpickerview.flag.BubbleFlag;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import fr.p4.mareu.DI.DI;
 import fr.p4.mareu.R;
@@ -38,36 +44,54 @@ import fr.p4.mareu.model.TimeRange;
 public class AddMeetingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityAddMeetingBinding mBinding;
-    public Calendar mDate;
-    private Calendar mStart;
-    private Calendar mEnd;
-    private ArrayList<String> mRoomList;
-    private ArrayList<Employee> mEmployeeList;
+    public Calendar mDate=Calendar.getInstance();
+    private Calendar mStart=Calendar.getInstance();
+    private Calendar mEnd=Calendar.getInstance();
+    private List<String> mRoomList;
+    private List<Employee> mEmployeeList;
     private String mRoomChosen;
     private int mColor;
+    MainActivity main;
     private final MeetingApiService mApiService = DI.getMeetingApiService();
     private Calendar currentCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
-        initUi();
+        initData(savedInstanceState);
+        initUi(savedInstanceState);
     }
 
-    private void initData() {
-        mRoomList = new ArrayList<String>();
-        mEmployeeList = new ArrayList<Employee>();
-        mDate = Calendar.getInstance();
-        mStart = Calendar.getInstance();
-        mEnd = Calendar.getInstance();
-        mColor = -16524603;
+    private void initData(Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+            Log.i("Saved", String.valueOf(savedInstanceState.getLong("DATE")));
+            mDate.setTimeInMillis(savedInstanceState.getLong("DATE"));
+            mStart.setTimeInMillis(savedInstanceState.getLong("START"));
+            mEnd.setTimeInMillis(savedInstanceState.getLong("END"));
+            mColor = savedInstanceState.getInt("COLOR");
+            currentCalendar.setTimeInMillis(savedInstanceState.getLong("CURRENT"));
+            mEmployeeList = savedInstanceState.getParcelableArrayList("PARTICIPANTS");
+            mRoomList = savedInstanceState.getStringArrayList("ROOMS");
+        } else {
+            mRoomList = new ArrayList<String>();
+            mEmployeeList = new ArrayList<Employee>();
+            mColor = -16524603;
+        }
     }
 
-    private void initUi() {
+    private void initUi(Bundle savedInstanceState) {
         mBinding = ActivityAddMeetingBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        if(savedInstanceState != null){
+            spinnerConfig();
+            mBinding.spinnerRooms.setVerticalScrollbarPosition(savedInstanceState.getInt("SPINPOS"));
+            displayEmployee();
+        } else {
+            String room = "Rooms";
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Collections.singletonList(room));
+            mBinding.spinnerRooms.setAdapter(dataAdapter);
+        }
         mBinding.addMeetingEditTextDate.setOnClickListener(v -> dateDialog());
         mBinding.addMeetingEditTextTimeStart.setOnClickListener(this);
         mBinding.addMeetingEditTextTimeEnd.setOnClickListener(this);
@@ -75,6 +99,8 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mBinding.buttonResetEmployees.setOnClickListener(v -> resetEmployee());
         mBinding.buttonAddMeeting.setOnClickListener(v -> createMeeting());
         mBinding.addMeetingColorPickerBtn.setOnClickListener(v -> colorDialog());
+        mBinding.addMeetingTextViewEmployeesList.setMovementMethod(new ScrollingMovementMethod());
+
         mBinding.addMeetingEditTextSubject.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -91,7 +117,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        if (view == mBinding.addMeetingEditTextTimeStart && currentCalendar.before(mDate) && !mBinding.addMeetingEditTextDate.getText().toString().isEmpty()) {
+        if (view == mBinding.addMeetingEditTextTimeStart && (currentCalendar.before(mDate) || currentCalendar.equals(mDate)) && !mBinding.addMeetingEditTextDate.getText().toString().isEmpty()) {
             timeDialog(0);
         }
         if (view == mBinding.addMeetingEditTextTimeEnd) {
@@ -142,6 +168,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
                 currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
                 currentCalendar.set(Calendar.MINUTE, 0);
                 currentCalendar.set(Calendar.SECOND, 0);
+                currentCalendar.set(Calendar.MILLISECOND, 0);
                 mDate.setTimeInMillis(selection);
                 if (mDate.before(currentCalendar)) { // Error if past date chosen
                     mBinding.outlinedTextFieldDate.setErrorEnabled(true);
@@ -167,7 +194,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private void timeDialog(int nbr) {
         MaterialTimePicker builder = new MaterialTimePicker.Builder()
                 .setHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
-                .setMinute(Calendar.MINUTE)
+                .setMinute(Calendar.getInstance().get(Calendar.MINUTE))
                 .build();
         builder.show(getSupportFragmentManager(), "TAGT");
         builder.addOnPositiveButtonClickListener(new View.OnClickListener() {
@@ -254,11 +281,15 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             }
         }
         mBinding.addMeetingEditTextEmployeesList.setText(null);
+       displayEmployee();
+        mBinding.outlinedTextFieldEmployeesList.setErrorEnabled(false);
+    }
+
+    private void displayEmployee(){
         for (Employee e:mEmployeeList
         ) {
             mBinding.addMeetingTextViewEmployeesList.append(e.getMail()+" ");
         }
-        mBinding.outlinedTextFieldEmployeesList.setErrorEnabled(false);
     }
 
     private void resetEmployee(){
@@ -270,6 +301,20 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mRoomList.clear();
         roomChoice();
         spinnerConfig();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i("Saved", String.valueOf(mDate.getTimeInMillis()));
+        outState.putParcelableArrayList("PARTICIPANTS", (ArrayList<? extends Parcelable>) mEmployeeList);
+        outState.putLong("DATE", mDate.getTimeInMillis());
+        outState.putLong("START", mStart.getTimeInMillis());
+        outState.putLong("END", mEnd.getTimeInMillis());
+        outState.putLong("CURRENT", currentCalendar.getTimeInMillis());
+        outState.putInt("COLOR", mColor);
+        outState.putStringArrayList("ROOMS", (ArrayList<String>) mRoomList);
+        outState.putInt("SPINPOS", mBinding.spinnerRooms.getSelectedItemPosition());
     }
 
     private void createMeeting(){
