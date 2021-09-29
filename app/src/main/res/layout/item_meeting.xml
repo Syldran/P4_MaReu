@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    >
+    android:layout_marginBottom="8dp">
 
     <ImageView
         android:id="@+id/photo"
@@ -21,10 +18,10 @@
         android:id="@+id/item_meeting_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:textStyle="bold"
         android:layout_marginHorizontal="16dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/itemDeleteButton"
         app:layout_constraintStart_toEndOf="@+id/photo"
         app:layout_constraintTop_toTopOf="@+id/photo" />
@@ -34,8 +31,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:singleLine="true"
         android:ellipsize="end"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@+id/item_meeting_title"
         app:layout_constraintStart_toEndOf="@+id/photo"
         app:layout_constraintTop_toBottomOf="@+id/item_meeting_title" />
@@ -44,10 +41,10 @@
         android:id="@+id/itemDeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_24"
-        android:src="@drawable/ic_baseline_delete_24"
-        android:backgroundTint="@color/transparent"
         android:layout_margin="16dp"
+        android:background="@drawable/circle_24"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_baseline_delete_24"
         app:layout_constraintBottom_toBottomOf="@+id/item_meeting_mail_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/item_meeting_title" />

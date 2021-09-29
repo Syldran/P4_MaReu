@@ -4,16 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Employee implements Parcelable {
-    private String mMail;
-
-    public Employee(String mail) {
-        mMail = mail;
-    }
-
-    protected Employee(Parcel in) {
-        mMail = in.readString();
-    }
-
     public static final Creator<Employee> CREATOR = new Creator<Employee>() {
         @Override
         public Employee createFromParcel(Parcel in) {
@@ -25,6 +15,15 @@ public class Employee implements Parcelable {
             return new Employee[size];
         }
     };
+    private String mMail;
+
+    public Employee(String mail) {
+        mMail = mail;
+    }
+
+    protected Employee(Parcel in) {
+        mMail = in.readString();
+    }
 
     public String getMail() {
         return mMail;

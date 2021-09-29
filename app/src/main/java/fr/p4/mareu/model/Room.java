@@ -11,7 +11,7 @@ public class Room {
         mUnavailability = new ArrayList<TimeRange>(0);
     }
 
-    public Room(String id, TimeRange unavailability){
+    public Room(String id, TimeRange unavailability) {
         mId = id;
         mUnavailability.add(unavailability);
     }

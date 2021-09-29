@@ -20,11 +20,11 @@ import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 public class MeetingViewHolder extends RecyclerView.ViewHolder {
-    private MeetingApiService mApiService = DI.getMeetingApiService();
     public final ImageView meetingColor;
     public final TextView title;
     public final TextView mailList;
     public final ImageButton deleteButton;
+    private final MeetingApiService mApiService = DI.getMeetingApiService();
 
     public MeetingViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -36,7 +36,7 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
 
     public void displayMeeting(Meeting meeting, RecyclerViewHolderListener listener) {
         meetingColor.setBackgroundTintList(ColorStateList.valueOf(meeting.getColor()));
-        title.setText(meeting.getSubject()+" - " + meeting.getDuration().getStart().get(Calendar.HOUR_OF_DAY) + "h" + meeting.getDuration().getStart().get(Calendar.MINUTE)+ " - "+meeting.getRoom().getId());
+        title.setText(meeting.getSubject() + " - " + meeting.getDuration().getStart().get(Calendar.HOUR_OF_DAY) + "h" + meeting.getDuration().getStart().get(Calendar.MINUTE) + " - " + meeting.getRoom().getId());
         mailList.setText(displayParticipants(meeting.getParticipants()));
         deleteButton.setOnClickListener(view -> listener.onItemClicked(this, meeting, getAdapterPosition()));
     }

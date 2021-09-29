@@ -34,10 +34,6 @@ public class TimeRange {
         Log.i("intersect mStart", "A : "+mStart.get(Calendar.YEAR)+"    M "+mStart.get(Calendar.MONTH)+"   D : "+mStart.get(Calendar.DAY_OF_MONTH)+"   h : "+mStart.get(Calendar.HOUR_OF_DAY)+"   m : "+mStart.get(Calendar.MINUTE));
 */
 
-        if (duration.getStart().before(mEnd) && duration.getEnd().after(mStart)) {
-            return true;
-        } else {
-            return false;
-        }
+        return duration.getStart().before(mEnd) && duration.getEnd().after(mStart);
     }
 }

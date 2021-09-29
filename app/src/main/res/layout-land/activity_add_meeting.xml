@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".controller.AddMeetingActivity">
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldDate"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -165,10 +164,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin"
-        android:padding="4dp"
         android:background="@drawable/border"
         android:ellipsize="end"
         android:fadeScrollbars="false"
+        android:padding="4dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldEmployeesList"

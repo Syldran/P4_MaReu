@@ -16,16 +16,16 @@ import java.util.Objects;
 public class RecyclerViewItemCountAssertion implements ViewAssertion {
     private final Matcher<Integer> matcher;
 
+    private RecyclerViewItemCountAssertion(Matcher<Integer> matcher) {
+        this.matcher = matcher;
+    }
+
     public static RecyclerViewItemCountAssertion withItemCount(int expectedCount) {
         return withItemCount(Matchers.is(expectedCount));
     }
 
     public static RecyclerViewItemCountAssertion withItemCount(Matcher<Integer> matcher) {
         return new RecyclerViewItemCountAssertion(matcher);
-    }
-
-    private RecyclerViewItemCountAssertion(Matcher<Integer> matcher) {
-        this.matcher = matcher;
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +26,6 @@ import com.skydoves.colorpickerview.flag.BubbleFlag;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +49,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     private List<Employee> mEmployeeList;
     private String mRoomChosen;
     private int mColor;
-    MainActivity main;
     private final MeetingApiService mApiService = DI.getMeetingApiService();
     private Calendar currentCalendar = Calendar.getInstance();
 
@@ -64,7 +61,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
     private void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null){
-            Log.i("Saved", String.valueOf(savedInstanceState.getLong("DATE")));
             mDate.setTimeInMillis(savedInstanceState.getLong("DATE"));
             mStart.setTimeInMillis(savedInstanceState.getLong("START"));
             mEnd.setTimeInMillis(savedInstanceState.getLong("END"));
@@ -270,7 +266,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         for (int i = 0 ; i < employees.length ;i++) {
             if (employees[i] != ' ' && employees[i]!=',' && employees[i]!='\n') {
                 name += employees[i];
-                Log.i("addEmployeeListNameC", name);
                 if(i==employees.length-1){
                     mEmployeeList.add(new Employee(name));
                     name="";
@@ -306,7 +301,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("Saved", String.valueOf(mDate.getTimeInMillis()));
         outState.putParcelableArrayList("PARTICIPANTS", (ArrayList<? extends Parcelable>) mEmployeeList);
         outState.putLong("DATE", mDate.getTimeInMillis());
         outState.putLong("START", mStart.getTimeInMillis());

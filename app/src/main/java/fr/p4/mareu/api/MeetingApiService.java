@@ -1,6 +1,5 @@
 package fr.p4.mareu.api;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import fr.p4.mareu.R;
@@ -15,9 +16,9 @@ import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
-    private List<Meeting> mMeetings;
-    private Context mContext;
-    private RecyclerViewHolderListener mListener;
+    private final List<Meeting> mMeetings;
+    private final Context mContext;
+    private final RecyclerViewHolderListener mListener;
 
 
     public MeetingAdapter(List<Meeting> meetings, Context context, RecyclerViewHolderListener listener) {
@@ -31,13 +32,13 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public MeetingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_meeting,parent,false);
+                .inflate(R.layout.item_meeting, parent, false);
         return new MeetingViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
-        Meeting meeting=mMeetings.get(position);
+        Meeting meeting = mMeetings.get(position);
         holder.displayMeeting(meeting, mListener);
         //holder.itemView.setOnClickListener(v -> mContext.startActivity(new Intent()));
     }

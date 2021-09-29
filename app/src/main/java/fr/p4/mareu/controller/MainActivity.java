@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import fr.p4.mareu.DI.DI;
@@ -35,8 +33,8 @@ import fr.p4.mareu.utils.RecyclerViewHolderListener;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding mBinding;
-    private MeetingApiService mApiService = DI.getMeetingApiService();
-    private List<Meeting> mMeetings= new ArrayList<>();
+    private final MeetingApiService mApiService = DI.getMeetingApiService();
+    private final List<Meeting> mMeetings = new ArrayList<>();
     private MeetingAdapter meetingAdapter;
 
     @Override
@@ -124,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         datePickerDialog.show();
     }
 
-    private void roomDialog(){
-        String[] rooms1= new String[]{String.valueOf(rooms[0].getId()),String.valueOf(rooms[1].getId()),String.valueOf(rooms[2].getId()),String.valueOf(rooms[3].getId()),String.valueOf(rooms[4].getId()),String.valueOf(rooms[5].getId()),String.valueOf(rooms[6].getId()),String.valueOf(rooms[7].getId()),String.valueOf(rooms[8].getId()),String.valueOf(rooms[9].getId())};
+    private void roomDialog() {
+        String[] rooms1 = new String[]{String.valueOf(rooms[0].getId()), String.valueOf(rooms[1].getId()), String.valueOf(rooms[2].getId()), String.valueOf(rooms[3].getId()), String.valueOf(rooms[4].getId()), String.valueOf(rooms[5].getId()), String.valueOf(rooms[6].getId()), String.valueOf(rooms[7].getId()), String.valueOf(rooms[8].getId()), String.valueOf(rooms[9].getId())};
         MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
         dialog.setTitle("Rooms");
         dialog.setItems(rooms1, (DialogInterface.OnClickListener) (dialogInterface, i) -> {
@@ -148,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view == mBinding.mainAddMeeting){
-         startActivity(new Intent(this, AddMeetingActivity.class));
+        if (view == mBinding.mainAddMeeting) {
+            startActivity(new Intent(this, AddMeetingActivity.class));
         }
     }
 }

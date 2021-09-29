@@ -2,15 +2,14 @@ package fr.p4.mareu.api;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.model.Room;
 
-public class DummyMeetingApiService implements MeetingApiService{
+public class DummyMeetingApiService implements MeetingApiService {
 
-    private List<Meeting> mMeetings = DummyMeetingGenerator.generateMeetings();
+    private final List<Meeting> mMeetings = DummyMeetingGenerator.generateMeetings();
 
     @Override
     public List<Meeting> getMeetings() {
@@ -49,9 +48,9 @@ public class DummyMeetingApiService implements MeetingApiService{
     public List<Meeting> getMeetingsFilteredByRoom(Room room) {
         List<Meeting> result = new ArrayList<>();
 
-        for (int i = 0 ; i < mMeetings.size(); i++){
+        for (int i = 0; i < mMeetings.size(); i++) {
             boolean sameRoom = room == mMeetings.get(i).getRoom();
-            if(sameRoom){
+            if (sameRoom) {
                 result.add(mMeetings.get(i));
             }
         }

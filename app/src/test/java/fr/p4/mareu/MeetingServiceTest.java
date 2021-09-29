@@ -1,17 +1,14 @@
 package fr.p4.mareu;
 
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static fr.p4.mareu.api.DummyMeetingGenerator.DUMMY_PARTICIPANTS1;
 import static fr.p4.mareu.api.DummyMeetingGenerator.rooms;
 import static fr.p4.mareu.api.DummyMeetingGenerator.sCalendarTimeEnd;
 import static fr.p4.mareu.api.DummyMeetingGenerator.sCalendarTimeStart;
 
-import android.util.Log;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class MeetingServiceTest {
     private MeetingApiService service;
 
     @Before
-    public void setup(){
+    public void setup() {
         service = DI.getNewInstanceApiService();
     }
 

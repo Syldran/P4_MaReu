@@ -19,11 +19,11 @@ public class SpinnerItemCountAssertion implements ViewAssertion {
         matcherSpinner = matcher;
     }
 
-    public static SpinnerItemCountAssertion withItemCount(int expectedCount){
+    public static SpinnerItemCountAssertion withItemCount(int expectedCount) {
         return withItemCount(Matchers.is(expectedCount));
     }
 
-    public static SpinnerItemCountAssertion withItemCount(Matcher<Integer> matcher){
+    public static SpinnerItemCountAssertion withItemCount(Matcher<Integer> matcher) {
         return new SpinnerItemCountAssertion(matcher);
     }
 
@@ -35,7 +35,6 @@ public class SpinnerItemCountAssertion implements ViewAssertion {
 
         Spinner spinner = (Spinner) view;
         SpinnerAdapter spinnerAdapter = spinner.getAdapter();
-        Log.i("SpinnerCount", String.valueOf(spinnerAdapter.getCount()));
         Assert.assertThat(spinnerAdapter.getCount(), matcherSpinner);
     }
 }
