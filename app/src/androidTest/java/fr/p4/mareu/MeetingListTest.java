@@ -88,7 +88,7 @@ public class MeetingListTest {
         //set Subject and Participants
         onView(ViewMatchers.withId(R.id.add_meeting_edit_text_subject)).perform(typeText("Test"));
         onView(ViewMatchers.withId(R.id.add_meeting_edit_text_employees_list)).perform(typeText("Guillaume"));
-        onView(ViewMatchers.withId(R.id.buttonAddEmployees)).perform(click());
+        onView(ViewMatchers.withId(R.id.add_meeting_buttonAddEmployees)).perform(click());
 
         //set Date
         onView(ViewMatchers.withId(R.id.add_meeting_edit_text_date)).perform(click());
@@ -109,7 +109,7 @@ public class MeetingListTest {
         onView(withId(R.id.material_timepicker_ok_button)).perform(click());
 
         //confirm
-        onView(withId(R.id.buttonAddMeeting)).perform(click());
+        onView(withId(R.id.add_meeting_buttonAddMeeting)).perform(click());
         onView(withId(R.id.main_meeting_recyclerview)).check(withItemCount(ITEMS_COUNT + 1));
         ITEMS_COUNT += 1;
 

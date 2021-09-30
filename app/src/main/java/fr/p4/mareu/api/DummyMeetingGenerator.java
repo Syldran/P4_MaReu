@@ -57,7 +57,7 @@ public abstract class DummyMeetingGenerator {
         sCalendarTimeEnd2.set(2021, 8, 6, 16, 45);
     }
 
-    static List<Meeting> generateMeetings() {
+    public static List<Meeting> generateMeetings() {
         return new ArrayList<>(DUMMY_MEETINGS);
     }
 }

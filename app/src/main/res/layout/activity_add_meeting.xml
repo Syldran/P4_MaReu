@@ -127,7 +127,7 @@
         android:layout_margin="@dimen/margin"
         android:hint="Employees List"
         app:expandedHintEnabled="false"
-        app:layout_constraintEnd_toStartOf="@+id/buttonResetEmployees"
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_buttonResetEmployees"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldSubject">
 
@@ -153,13 +153,13 @@
         android:fadeScrollbars="false"
         android:padding="5dp"
         android:layout_marginBottom="@dimen/margin"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddMeeting"
+        app:layout_constraintBottom_toTopOf="@+id/add_meeting_buttonAddMeeting"
         app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldEmployeesList"
         app:layout_constraintStart_toStartOf="@+id/outlinedTextFieldEmployeesList"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldEmployeesList" />
 
     <Button
-        android:id="@+id/buttonAddEmployees"
+        android:id="@+id/add_meeting_buttonAddEmployees"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add"
@@ -169,17 +169,17 @@
         app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldEmployeesList" />
 
     <Button
-        android:id="@+id/buttonResetEmployees"
+        android:id="@+id/add_meeting_buttonResetEmployees"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin"
         android:textAllCaps="false"
         android:text="Reset"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddEmployees" />
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_buttonAddEmployees" />
 
     <Button
-        android:id="@+id/buttonAddMeeting"
+        android:id="@+id/add_meeting_buttonAddMeeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin"
@@ -189,7 +189,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonResetEmployees"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_buttonResetEmployees"
         app:layout_constraintVertical_bias="1.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

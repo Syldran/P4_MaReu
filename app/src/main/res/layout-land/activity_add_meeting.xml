@@ -119,9 +119,9 @@
         android:layout_marginEnd="@dimen/margin"
         android:hint="Meeting subject"
         app:expandedHintEnabled="false"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddMeeting"
+        app:layout_constraintBottom_toTopOf="@+id/add_meeting_buttonAddMeeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/buttonAddMeeting"
+        app:layout_constraintStart_toStartOf="@+id/add_meeting_buttonAddMeeting"
         app:layout_constraintTop_toBottomOf="@+id/add_meeting_color_picker_btn">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -143,7 +143,7 @@
         android:layout_margin="@dimen/margin"
         android:hint="Employees List"
         app:expandedHintEnabled="false"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddEmployees"
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_buttonAddEmployees"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldDate">
 
@@ -175,28 +175,28 @@
         app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldEmployeesList" />
 
     <Button
-        android:id="@+id/buttonAddEmployees"
+        android:id="@+id/add_meeting_buttonAddEmployees"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin"
         android:text="Add"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toStartOf="@+id/buttonAddMeeting"
+        app:layout_constraintEnd_toStartOf="@+id/add_meeting_buttonAddMeeting"
         app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldEmployeesList" />
 
     <Button
-        android:id="@+id/buttonResetEmployees"
+        android:id="@+id/add_meeting_buttonResetEmployees"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
         android:text="Reset"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/buttonAddEmployees"
-        app:layout_constraintStart_toStartOf="@+id/buttonAddEmployees"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddEmployees" />
+        app:layout_constraintEnd_toEndOf="@+id/add_meeting_buttonAddEmployees"
+        app:layout_constraintStart_toStartOf="@+id/add_meeting_buttonAddEmployees"
+        app:layout_constraintTop_toBottomOf="@+id/add_meeting_buttonAddEmployees" />
 
     <Button
-        android:id="@+id/buttonAddMeeting"
+        android:id="@+id/add_meeting_buttonAddMeeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin"
