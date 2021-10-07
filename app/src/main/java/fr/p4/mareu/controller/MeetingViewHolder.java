@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Calendar;
 import java.util.List;
 
-import fr.p4.mareu.DI.DI;
 import fr.p4.mareu.R;
-import fr.p4.mareu.api.MeetingApiService;
 import fr.p4.mareu.model.Employee;
 import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.utils.RecyclerViewHolderListener;
