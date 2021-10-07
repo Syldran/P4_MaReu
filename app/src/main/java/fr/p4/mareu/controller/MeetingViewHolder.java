@@ -24,7 +24,6 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
     public final TextView title;
     public final TextView mailList;
     public final ImageButton deleteButton;
-    private final MeetingApiService mApiService = DI.getMeetingApiService();
 
     public MeetingViewHolder(@NonNull View itemView) {
         super(itemView);

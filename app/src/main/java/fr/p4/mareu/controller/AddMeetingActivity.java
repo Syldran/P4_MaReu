@@ -159,7 +159,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
         final MaterialDatePicker<Long> materialDatePicker = builder.build();
         materialDatePicker.show(getSupportFragmentManager(), "Date");
-
         materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
             @Override
             public void onPositiveButtonClick(Long selection) {
@@ -264,7 +263,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
 
     private void addEmployee(){
         char[] employees=mBinding.addMeetingEditTextEmployeesList.getText().toString().toCharArray();
-
         mBinding.addMeetingTextViewEmployeesList.setText(null);
         String name="";
         for (int i = 0 ; i < employees.length ;i++) {
@@ -337,7 +335,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             return;
         }
         mApiService.createMeeting(new Meeting( findRoom(), mColor, mEmployeeList, mBinding.addMeetingEditTextSubject.getText().toString(), new TimeRange(mStart, mEnd)));
-
         onBackPressed();
     }
 

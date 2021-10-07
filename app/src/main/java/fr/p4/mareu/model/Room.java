@@ -8,7 +8,7 @@ public class Room {
 
     public Room(String id) {
         mId = id;
-        mUnavailability = new ArrayList<TimeRange>(0);
+        mUnavailability = new ArrayList<TimeRange>();
     }
 
     public Room(String id, TimeRange unavailability) {

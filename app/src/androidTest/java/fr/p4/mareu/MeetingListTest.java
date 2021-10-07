@@ -5,10 +5,15 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static fr.p4.mareu.utils.RecyclerViewItemCountAssertion.withItemCount;
+import static fr.p4.mareu.utils.WaitViewAction.waitFor;
+
+import android.app.Activity;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -58,15 +63,16 @@ public class MeetingListTest {
         onView(ViewMatchers.withId(R.id.add_meeting_edit_text_time_start)).perform(click());
         onView(withId(R.id.material_timepicker_mode_button)).perform(click());
         onView(ViewMatchers.withId(R.id.material_hour_text_input)).perform(click());
-        onView(ViewMatchers.isFocused()).perform(typeText("7"));
+        onView(ViewMatchers.isFocused()).perform(typeText("10"));
         onView(withId(R.id.material_timepicker_ok_button)).perform(click());
 
         //set End
         onView(withId(R.id.add_meeting_edit_text_time_end)).perform(click());
         onView(withId(R.id.material_timepicker_mode_button)).perform(click());
         onView(ViewMatchers.withId(R.id.material_hour_text_input)).perform(click());
-        onView(ViewMatchers.isFocused()).perform(typeText("8"));
+        onView(ViewMatchers.isFocused()).perform(typeText("11"));
         onView(withId(R.id.material_timepicker_ok_button)).perform(click());
+        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.spinnerRooms)).check(SpinnerItemCountAssertion.withItemCount(ROOMS_COUNT));
     }

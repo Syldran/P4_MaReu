@@ -20,6 +20,7 @@ public abstract class DummyMeetingGenerator {
     public static Calendar sCalendarTimeEnd2 = Calendar.getInstance();
     public static Room[] rooms = new Room[]{new Room("Peach"), new Room("Mario"), new Room("Luigi"), new Room("Bowser"), new Room("Daisy"),
             new Room("Rosalina"), new Room("Wario"), new Room("Booster"), new Room("Kong"), new Room("Waluigi")};
+
     public static List<Employee> DUMMY_PARTICIPANTS1 = Arrays.asList(
             new Employee("maxime@lamzone.com"),
             new Employee("jeanine@lamzone.com"),
