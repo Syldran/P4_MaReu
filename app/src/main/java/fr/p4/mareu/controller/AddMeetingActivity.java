@@ -133,12 +133,6 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         super.onBackPressed();
     }
 
-    @SuppressLint("SetTextI18n")
-    private void setLayoutColor(ColorEnvelope envelope) {
-        mColor = envelope.getColor();
-        mBinding.addMeetingColorPickerBtn.setBackgroundTintList(ColorStateList.valueOf(mColor));
-    }
-
     private void spinnerConfig() {
         ArrayAdapter<String> dataAdapterR = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mRoomList);
         dataAdapterR.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -146,7 +140,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         mBinding.spinnerRooms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mRoomChosen = String.valueOf(mBinding.spinnerRooms.getSelectedItem());
-                Toast.makeText(AddMeetingActivity.this, "OnClickListener : " + "\nChosen Room : " + mRoomChosen, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddMeetingActivity.this, "Chosen Room : " + mRoomChosen, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -226,17 +220,23 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    private void colorDialog(){
+    @SuppressLint("SetTextI18n")
+    private void setLayoutColor(ColorEnvelope envelope) {
+        mColor = envelope.getColor();
+        mBinding.addMeetingColorPickerBtn.setBackgroundTintList(ColorStateList.valueOf(mColor));
+    }
+
+    private void colorDialog() {
         ColorPickerDialog.Builder builder = new ColorPickerDialog.Builder(this)
                 .setTitle("ColorPicker Dialog")
                 .setPreferenceName("ColorPicker")
                 .setPositiveButton(getString(R.string.confirm), (ColorEnvelopeListener) (envelope, fromUser) -> setLayoutColor(envelope))
                 .setNegativeButton(getString(R.string.cancel), (dialogInterface, i) -> dialogInterface.dismiss());
-            builder.getColorPickerView().setFlagView(new BubbleFlag(this));
-            builder.show();
+        builder.getColorPickerView().setFlagView(new BubbleFlag(this));
+        builder.show();
     }
 
-    private void roomChoice() {
+    private void roomChoice() {//Create a list of free room for spinner to display.
         TimeRange meetingDuration = new TimeRange(mStart, mEnd);
         boolean onceIntersected;
         for (Room room : rooms
@@ -278,7 +278,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             }
         }
         mBinding.addMeetingEditTextEmployeesList.setText(null);
-       displayEmployee();
+        displayEmployee();
         mBinding.outlinedTextFieldEmployeesList.setErrorEnabled(false);
     }
 
@@ -338,7 +338,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
         onBackPressed();
     }
 
-    private Room findRoom() {
+    private Room findRoom() { //to get object Room from table rooms by finding it's String mId with mRoomChosen.
         int b = -1;
         for (int i = 0; i < rooms.length; i++) {
             if (mRoomChosen.contentEquals(rooms[i].getId())) {

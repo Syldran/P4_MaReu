@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        // Filter selection
         switch (item.getItemId()) {
             case R.id.filter_date:
                 dateDialog();
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void dateDialog() {
-// Date Select Listener.
+        // Date Select Listener.
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -111,14 +111,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mMeetings.addAll(mApiService.getMeetingsFilteredByDate(cal));
                 meetingAdapter.notifyDataSetChanged();
             }
-
         };
-
-// Create DatePickerDialog (Spinner Mode):
+        // Create DatePickerDialog (Spinner Mode):
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 dateSetListener, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-
-// Show
+        // Show
         datePickerDialog.show();
     }
 

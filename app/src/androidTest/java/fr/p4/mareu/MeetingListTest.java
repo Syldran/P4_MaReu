@@ -52,9 +52,13 @@ public class MeetingListTest {
 
     @Test
     public void meetingListNotEmpty_and_RoomsCountValue() {
+        //Check there is at least one item in recyclerview
         onView(ViewMatchers.withId(R.id.main_meeting_recyclerview)).check(matches(hasMinimumChildCount(1)));
+
+        //Open Add meeting activity to check number of rooms
         onView(ViewMatchers.withId(R.id.main_add_meeting)).perform(click());
         assertThat(ViewMatchers.withId(R.layout.activity_add_meeting), notNullValue());
+
         //set Date
         onView(ViewMatchers.withId(R.id.add_meeting_edit_text_date)).perform(click());
         onView(withId(R.id.confirm_button)).perform(click());
@@ -72,8 +76,9 @@ public class MeetingListTest {
         onView(ViewMatchers.withId(R.id.material_hour_text_input)).perform(click());
         onView(ViewMatchers.isFocused()).perform(typeText("11"));
         onView(withId(R.id.material_timepicker_ok_button)).perform(click());
-        onView(isRoot()).perform(waitFor(4000));
+        onView(isRoot()).perform(waitFor(1000));
 
+        //Check our spinner items count
         onView(withId(R.id.spinnerRooms)).check(SpinnerItemCountAssertion.withItemCount(ROOMS_COUNT));
     }
 
@@ -116,10 +121,12 @@ public class MeetingListTest {
 
         //confirm
         onView(withId(R.id.add_meeting_buttonAddMeeting)).perform(click());
+
+        //check Meeting List has one more item.
         onView(withId(R.id.main_meeting_recyclerview)).check(withItemCount(ITEMS_COUNT + 1));
         ITEMS_COUNT += 1;
 
-        //set Meeting 2 with same timeslot
+        //set Meeting 2 with same timeslot to check room count is decreased by one
         onView(ViewMatchers.withId(R.id.main_add_meeting)).perform(click());
         assertThat(ViewMatchers.withId(R.layout.activity_add_meeting), notNullValue());
 
@@ -140,6 +147,8 @@ public class MeetingListTest {
         onView(ViewMatchers.withId(R.id.material_hour_text_input)).perform(click());
         onView(ViewMatchers.isFocused()).perform(typeText("8"));
         onView(withId(R.id.material_timepicker_ok_button)).perform(click());
+
+        //check rooms spinner items.
         onView(withId(R.id.spinnerRooms)).check(SpinnerItemCountAssertion.withItemCount(ROOMS_COUNT - 1));
     }
 }
