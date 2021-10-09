@@ -13,7 +13,7 @@ import fr.p4.mareu.model.TimeRange;
 
 public abstract class DummyMeetingGenerator {
 
-
+    public static Calendar sCalendarDate = Calendar.getInstance();
     public static Calendar sCalendarTimeStart = Calendar.getInstance();
     public static Calendar sCalendarTimeStart2 = Calendar.getInstance();
     public static Calendar sCalendarTimeEnd = Calendar.getInstance();
@@ -46,12 +46,13 @@ public abstract class DummyMeetingGenerator {
             new Employee("emilie@lamzone.com")
     );
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(rooms[0], -16524603, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd)),
-            new Meeting(rooms[1], -16524603, DUMMY_PARTICIPANTS2, "Réunion B", new TimeRange(sCalendarTimeStart2, sCalendarTimeEnd2)),
-            new Meeting(rooms[2], -16524603, DUMMY_PARTICIPANTS3, "Réunion C", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd))
+            new Meeting(rooms[0], -16524603, sCalendarDate, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd)),
+            new Meeting(rooms[1], -16524603, sCalendarDate, DUMMY_PARTICIPANTS2, "Réunion B", new TimeRange(sCalendarTimeStart2, sCalendarTimeEnd2)),
+            new Meeting(rooms[2], -16524603, sCalendarDate, DUMMY_PARTICIPANTS3, "Réunion C", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd))
     );
 
     static {
+        sCalendarDate.set(2021, 8, 6, 0, 0, 0);
         sCalendarTimeStart.set(2021, 8, 6, 10, 15);
         sCalendarTimeStart2.set(2021, 8, 6, 14, 15);
         sCalendarTimeEnd.set(2021, 8, 6, 11, 45);

@@ -22,7 +22,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
 
     public MeetingAdapter(List<Meeting> meetings, Context context, RecyclerViewHolderListener listener) {
-        this.mMeetings = meetings;
+        mMeetings = meetings;
         mContext = context;
         mListener = listener;
     }

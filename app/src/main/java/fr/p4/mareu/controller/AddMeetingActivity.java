@@ -334,7 +334,7 @@ public class AddMeetingActivity extends AppCompatActivity implements View.OnClic
             mBinding.outlinedTextFieldEmployeesList.setError("Please enter meeting participants");
             return;
         }
-        mApiService.createMeeting(new Meeting( findRoom(), mColor, mEmployeeList, mBinding.addMeetingEditTextSubject.getText().toString(), new TimeRange(mStart, mEnd)));
+        mApiService.createMeeting(new Meeting( findRoom(), mColor, mDate, mEmployeeList, mBinding.addMeetingEditTextSubject.getText().toString(), new TimeRange(mStart, mEnd)));
         onBackPressed();
     }
 

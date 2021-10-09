@@ -1,21 +1,35 @@
 package fr.p4.mareu.model;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class Meeting {
     private Room mRoom;
     private int mColor;
+
+
+
+    private Calendar mDate;
     private List<Employee> mParticipants;
     private TimeRange mDuration;
     private String mSubject;
 
-    public Meeting(Room room, int color, List<Employee> participants, String subject, TimeRange duration) {
+    public Meeting(Room room, int color, Calendar Date,List<Employee> participants, String subject, TimeRange duration) {
         mRoom = room;
         mColor = color;
+        mDate = Date;
         mParticipants = participants;
         mDuration = duration;
         mSubject = subject;
         mRoom.setUnavailability(duration);
+    }
+
+    public Calendar getDate() {
+        return mDate;
+    }
+
+    public void setDate(Calendar Date) {
+        mDate = Date;
     }
 
     public String getSubject() {

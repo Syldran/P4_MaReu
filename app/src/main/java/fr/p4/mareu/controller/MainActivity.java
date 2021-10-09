@@ -30,7 +30,7 @@ import fr.p4.mareu.model.Meeting;
 import fr.p4.mareu.utils.RecyclerViewHolderListener;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mBinding;
     private final MeetingApiService mApiService = DI.getMeetingApiService();
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUi();
-
     }
 
     @Override
@@ -138,13 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setButton() {
-        mBinding.mainAddMeeting.setOnClickListener(this);
+        mBinding.mainAddMeeting.setOnClickListener(v -> startActivity(new Intent(this, AddMeetingActivity.class)));
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == mBinding.mainAddMeeting) {
-            startActivity(new Intent(this, AddMeetingActivity.class));
-        }
-    }
 }

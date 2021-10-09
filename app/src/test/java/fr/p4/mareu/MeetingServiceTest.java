@@ -4,18 +4,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static fr.p4.mareu.api.DummyMeetingGenerator.DUMMY_PARTICIPANTS1;
 import static fr.p4.mareu.api.DummyMeetingGenerator.rooms;
+import static fr.p4.mareu.api.DummyMeetingGenerator.sCalendarDate;
 import static fr.p4.mareu.api.DummyMeetingGenerator.sCalendarTimeEnd;
 import static fr.p4.mareu.api.DummyMeetingGenerator.sCalendarTimeStart;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.List;
 
 import fr.p4.mareu.DI.DI;
 import fr.p4.mareu.api.DummyMeetingGenerator;
 import fr.p4.mareu.api.MeetingApiService;
 import fr.p4.mareu.model.Meeting;
+import fr.p4.mareu.model.Room;
 import fr.p4.mareu.model.TimeRange;
 
 /**
@@ -51,8 +54,26 @@ public class MeetingServiceTest {
     @Test
     public void addMeetingWithSuccess() {
         //Check the neighbour is contained after being added
-        Meeting meetingToAdd = new Meeting(rooms[0], -16524603, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
+        Meeting meetingToAdd = new Meeting(rooms[0], -16524603, sCalendarDate, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
         service.createMeeting(meetingToAdd);
         assertTrue(service.getMeetings().contains(meetingToAdd));
     }
+
+    @Test
+    public void dateFilteredMeeting() {
+        Calendar dateFilter=Calendar.getInstance();
+        dateFilter.set(2021,8,6);
+        for (Meeting m : service.getMeetingsFilteredByDate(dateFilter)) {
+            assertTrue(m.getDate().get(Calendar.DATE) == dateFilter.get(Calendar.DATE));
+        }
+    }
+
+    @Test
+    public void roomFilteredMeeting() {
+        Meeting meeting = new Meeting(rooms[0], -16524603, sCalendarDate, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
+        for (Meeting m : service.getMeetingsFilteredByRoom(rooms[5])) {
+           assertTrue( m.getRoom().equals(meeting.getRoom()));
+        }
+    }
+
 }
