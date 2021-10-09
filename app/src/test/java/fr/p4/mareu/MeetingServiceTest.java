@@ -61,16 +61,16 @@ public class MeetingServiceTest {
 
     @Test
     public void dateFilteredMeeting() {
-        Calendar dateFilter=Calendar.getInstance();
-        dateFilter.set(2021,8,6);
+        Calendar dateFilter=sCalendarDate;
+        Meeting meeting = new Meeting(rooms[5], -16524603, dateFilter, DUMMY_PARTICIPANTS1, "Réunion X", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
         for (Meeting m : service.getMeetingsFilteredByDate(dateFilter)) {
-            assertTrue(m.getDate().get(Calendar.DATE) == dateFilter.get(Calendar.DATE));
+            assertTrue(m.getDate().equals(meeting.getDate()));
         }
     }
 
     @Test
     public void roomFilteredMeeting() {
-        Meeting meeting = new Meeting(rooms[0], -16524603, sCalendarDate, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
+        Meeting meeting = new Meeting(rooms[5], -16524603, sCalendarDate, DUMMY_PARTICIPANTS1, "Réunion A", new TimeRange(sCalendarTimeStart, sCalendarTimeEnd));
         for (Meeting m : service.getMeetingsFilteredByRoom(rooms[5])) {
            assertTrue( m.getRoom().equals(meeting.getRoom()));
         }
